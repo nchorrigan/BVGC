@@ -15,12 +15,11 @@
                 pagerAnchorBuilder: function (index, slide) {
                     return '#banner-nav A:eq(' + (index) + ')';
                 }
-            });
-
-        $('#banners').hover(
-            function () { $(this).cycle('pause'); },
-            function () { $(this).cycle('resume'); }
-        );
+            })
+            .hover(
+                function () { $(this).cycle('pause'); },
+                function () { $(this).cycle('resume'); }
+            );
 
         $('BODY').on('click', '#book-a-tee', function (e) {
             e.preventDefault();
@@ -28,6 +27,19 @@
             $('<DIV />')
                 .load('/diary/bookatee.php')
                 .modal();
+        });
+
+        $('#navigation').on('click', 'A', function (e) {
+            var children = $(this).parent().find('UL');
+
+            if (children.length) {
+                e.preventDefault();
+                if (children.is(':visible')) {
+                    children.slideUp();
+                } else {
+                    children.slideDown();
+                }                
+            }
         });
     });
 })(jQuery);

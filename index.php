@@ -1,6 +1,4 @@
 <?php require_once("./includes/header.php"); 
-    
-    $pageHelper = new PageHelper();
     $eventHelper = new EventHelper();
     
     if(is_admin() && $_SERVER["REQUEST_METHOD"] == "POST") {

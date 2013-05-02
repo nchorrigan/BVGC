@@ -1,8 +1,7 @@
 <?php
     
     include("../includes/header.php"); 
-    
-    $pageHelper = new PageHelper();
+
     $eventHelper = new EventHelper();
 
     $page = $pageHelper->GetPage($_SERVER["REQUEST_URI"]);

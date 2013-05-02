@@ -1,8 +1,12 @@
-<?php require_once(dirname(__FILE__) . "/_init.php"); ?>
+<?php    
+    require_once(dirname(__FILE__) . "/_init.php");
+
+    $pageHelper = new PageHelper();
+?>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
         <title>Burghill Valley Golf Club</title>
         <link rel="stylesheet" type="text/css" href="/css/site.css" />
         <?php if(is_admin()) { ?>
@@ -32,16 +36,7 @@
                 </div>
             </div>
             <div id="navigation">
-                <ul class="content">
-                    <li><a href="/">HOME</a></li>
-                    <li><a href="/club">About The Club</a></li>
-                    <li><a href="/course">The Course</a></li>
-                    <li><a href="/membership">Membership</a></li>
-                    <li><a href="/visitors">Visitors</a></li>
-                    <li><a href="/diary">Events &amp; Competitions</a></li>
-                    <li><a href="/galleries">Photo Galleries</a></li>
-                    <li><a href="/contactus">Contact Us</a></li>
-                </ul>
+                <ul class="content"><?php echo $pageHelper->BuildMenu(); ?></ul>
             </div>
         </div>
         <div id="mainbody" class="content">

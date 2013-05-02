@@ -1,10 +1,9 @@
 <?php
     
     include("../includes/header.php"); 
-    
-    $pageHelper = new PageHelper();
+
     $galleryHelper = new GalleryHelper();
-    
+
     $page = $pageHelper->GetPage($_SERVER["REQUEST_URI"]);
 ?>
 <?php if (!$pageHelper->IsEditable() && $page->banners != null) { ?>

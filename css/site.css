@@ -1,5 +1,6 @@
 @import url(./simplemodal.css);
 @import url(./typography.css);
+@import url(./navigation.css);
 
 BODY {
     background: #111 url('../imgs/bg.gif') repeat-x;
@@ -89,31 +90,6 @@ A#book-a-tee IMG {
 
 #header #heading #social_header A IMG {
     border: 0;
-}
-
-#header #navigation {
-    height: 25px;
-    background-color: #6d6b87;
-}
-
-#header #navigation UL {
-    padding: 2px 0 0 2em;
-    list-style: none;
-}
-
-#header #navigation UL LI {
-    float: left;
-    margin-right: 2em;
-}
-
-#header #navigation UL LI A {
-    color: #fff;
-    text-decoration: none;
-}
-
-#header #navigation UL LI A:HOVER {
-    color: #b7b4d6;
-    background: #6d6b87;
 }
 
 #footer {

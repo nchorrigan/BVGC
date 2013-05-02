@@ -9,7 +9,7 @@
             if (substr($path, strlen($path) - 1) == "/") {
                 $path = substr($path, 0, strlen($path) - 1);
             }
-
+    
             $query = 'SELECT id, path, menulabel, pageTitle, content, left_pos, right_pos, showOnMenu FROM pages WHERE path = ? LIMIT 1';
             $statement = $databaseConnection->prepare($query);
             $statement->bind_param('s', $path);
@@ -67,6 +67,52 @@
             } 
     
             return $page;
+        }
+    
+    
+        function BuildMenu() {
+            global $databaseConnection;
+    
+            //Get an array of all of the pages.
+            $pages = array();
+    
+            $query = 'SELECT id, path, menulabel, pageTitle, left_pos, right_pos FROM pages WHERE showOnMenu = 1 ORDER BY left_pos ASC;';
+            $statement = $databaseConnection->prepare($query);
+    
+            if ($statement->execute()) {
+                $statement->bind_result($id, $path, $label, $title, $leftPos, $rightPos);
+    
+                while($row = $statement->fetch()) {
+                    $page = new Page();
+    
+                    $page->id = $id;
+                    $page->path = $path;
+                    $page->label = $label;
+                    $page->title = $title;
+                    $page->leftPos = $leftPos;
+                    $page->rightPos = $rightPos;
+    
+                    $pages[] = $page;
+                }
+            }
+    
+            for($i = 0; $i < count($pages); $i++) {
+                echo "<li><a href=\"". $pages[$i]->path ."\">". $pages[$i]->label ."</a>";
+    
+                if ($i + 1 < count($pages) && $pages[$i+1]->rightPos < $pages[$i]->rightPos) {
+                    $children = $pages[$i]->rightPos - $pages[$i+1]->rightPos;
+    
+                    echo "<ul>";
+                    for($x = 0; $x < $children; $x++) {
+                        echo "<li><a href=\"". $pages[$i]->path ."\">". $pages[$i]->label ."</a>";
+                        $i++;
+                    }
+                    echo "</ul>";
+                    $i--;
+                }
+    
+                echo "</li>";
+            }
         }
     
         function UpdatePage($pageId, $pageTitle, $content) {

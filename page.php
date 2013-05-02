@@ -1,9 +1,6 @@
-<?php
-    
-    require("includes/header.php");
-    
-    $pageHelper = new PageHelper();
-    
+<?php    
+    include("includes/header.php");
+
     if(is_admin() && $_SERVER["REQUEST_METHOD"] == "POST") {
         $pageId = $_POST["pageId"];
     
@@ -15,12 +12,10 @@
                 echo 'Failed to edit page';
             }
         }
-    }  
-    
+    }
+
     $page = $pageHelper->GetPage($_SERVER["REQUEST_URI"]);
 ?>
-
-
 <?php if (!$pageHelper->IsEditable() && $page->banners != null) { ?>
 <div id="banners">
     <?php foreach($page->banners as $banner) { ?>
