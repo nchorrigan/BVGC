@@ -1,0 +1,9 @@
+.event_title {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.event_date {
+    margin-left: 1.4em;
+    font-style: italic;
+}

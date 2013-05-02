@@ -1,0 +1,35 @@
+.wysiwyg_heading {
+    padding:1px 10px;
+    font-size:1em;
+    font-weight:bold;
+    width:15em;
+}
+
+#edit-page {
+    float: right;
+}
+
+BUTTON {
+    padding: 5px 5px 5px 25px;
+    min-width: 35px;
+    background-repeat: no-repeat;
+    background-position: left;
+    background-position-x: 5px;
+    margin-left: 5px;
+}
+
+    BUTTON[name=edit] {
+        background-image: url(../imgs/buttons/page_edit.png);
+    }
+
+    BUTTON[name=save] {
+        background-image: url(../imgs/buttons/page_save.png);
+    }
+
+    BUTTON[name=delete] {
+        background-image: url(../imgs/buttons/page_delete.png);
+    }
+
+    BUTTON[name=add] {
+        background-image: url(../imgs/buttons/page_add.png);
+    }

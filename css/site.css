@@ -1,0 +1,235 @@
+@import url(./simplemodal.css);
+@import url(./typography.css);
+
+BODY {
+    background: #111 url('../imgs/bg.gif') repeat-x;
+}
+
+A#book-a-tee {
+    position: fixed;
+    right: -3px;
+    top: 30%;
+    z-index: 1000;
+}
+
+A#book-a-tee:HOVER {
+    right: 0;
+}
+
+A#book-a-tee IMG {
+    border: 0;
+}
+
+.content {
+    width: 900px;
+    margin: 0 auto 0 auto;
+}
+
+.platform {
+    width: 100%;
+    height: 1px;
+    clear: both;
+}
+
+#header {
+    background-color: #fff;
+    border-bottom: 1px solid #fff;
+}
+
+#header #top {
+    height: 15px;
+    background-color: #120b65;
+}
+
+#header #heading {
+    height: 84px;
+    position: relative;
+}
+
+#header #heading #title {
+    background-image: url(../imgs/bvgc-logo.png);
+    background-repeat: no-repeat;
+    background-position: 2px 50%;
+    font-size: 2.8em;
+    font-family: Verdana;
+    line-height: 84px;
+    width: 60%;
+    padding-left: 85px;
+}
+
+#header #heading #title A {
+    text-decoration: none;
+    color: inherit;
+}
+
+#header #heading #contact_details {
+    font-size: 1.1em;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 84px;
+    margin: 22px 63px 0 0;
+}
+
+#header #heading #contact_details STRONG {
+    width: 3em;
+    display: inline-block;
+}
+
+#header #heading #social_header {
+    position: absolute;
+    right: 0;
+    top: 15px;
+}
+
+#header #heading #social_header A {
+    display: block;
+    margin-bottom: 3px;
+}
+
+#header #heading #social_header A IMG {
+    border: 0;
+}
+
+#header #navigation {
+    height: 25px;
+    background-color: #6d6b87;
+}
+
+#header #navigation UL {
+    padding: 2px 0 0 2em;
+    list-style: none;
+}
+
+#header #navigation UL LI {
+    float: left;
+    margin-right: 2em;
+}
+
+#header #navigation UL LI A {
+    color: #fff;
+    text-decoration: none;
+}
+
+#header #navigation UL LI A:HOVER {
+    color: #b7b4d6;
+    background: #6d6b87;
+}
+
+#footer {
+    margin-top: .6em;
+    color: #878080;
+    margin-bottom: 1em;
+}
+
+#mainbody {
+    min-height: 500px;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    background-color: #fff;
+    position: relative;
+    padding: 2px 3px 2em 3px;
+}
+
+#banners {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+}
+
+#banners .banner-dark {
+    position: absolute;
+    width: 31%;
+    height: 308px;
+    background-color: #000;
+    opacity: 0.7;
+    left: 17px;
+    color: #fff;
+    font-weight: 500;
+    z-index: 100;
+}
+
+#banners .banner-dark .banner-desc {
+    padding: 1.2em;
+}
+
+#banner-base {
+    width: 100%;
+    height: 8px;
+    background-color: #120b65;
+    z-index: 101;
+}
+
+#banners #banner-nav {
+    position: absolute;
+    border: none;
+    bottom: 0;
+    right: 0;
+    z-index: 100;
+    margin-right: 10px;
+    background-color: #fff;
+    padding: 3px 0 0 1em;
+    text-align: right;
+}
+
+#banners #banner-nav A {
+    margin-right: 1em;
+}
+
+#banners #banner-nav A.activeSlide {
+    font-weight: bold;
+}
+
+#leftcol {
+    width: 58%;
+    float: left;
+    margin: 0 .3em 1em 1em;
+}
+
+#rightcol {
+    position: relative;
+    float: right;
+    width: 37%;
+    right: 0;
+    margin-top: .3em;
+    margin-left: 1em;
+}
+
+#fullcol {
+    margin: 0 1em 1em 1em;
+}
+
+#leftcol, #fullcol {
+    position: relative;
+}
+
+#leftcol P, #fullcol P {
+    margin-left: .7em;
+}
+
+#leftcol H3, #fullcol H3 {
+    margin: .7em;
+}
+
+#rightcol H3, #fullcol H3 {
+    color: #800;
+    margin: 1em 0 .4em 0;
+}
+
+
+.homepage_events {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 .7em;
+}
+
+.homepage_events LI {
+    margin-bottom: .4em;
+}
+
+.event_date {
+    font-style: italic;
+    font-size: .9em;
+    
+    margin-left: 1.2em;    
+}

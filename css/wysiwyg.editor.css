@@ -1,0 +1,23 @@
+﻿@import url(typography.css);
+
+BODY {
+    padding: 10px;
+}
+
+IMG {
+    margin: 1em 1em 1em 1em;
+    padding: 6px;
+    background-color: #fff;
+    border: 1px solid #555;
+    max-width: 250px;
+}
+
+div.jHtmlArea {
+    display: inline block;
+    width: 100% !important;
+}
+
+    div.jHtmlArea iframe {
+        border: 0;
+        width: 100%;
+    }
