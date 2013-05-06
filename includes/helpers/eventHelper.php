@@ -16,7 +16,7 @@
     
                 $statement->bind_result($event->id, $event->type, $event->title, $event->summary, $event->content, $event->date);
                 $statement->fetch();
-
+    
                 $event->files = $this->GetEventFiles($event->id);
             }
     
@@ -62,7 +62,7 @@
     
             return $events;
         }
-
+    
         function GetEventFiles($eventId) {
             global $databaseConnection;
     
@@ -73,7 +73,7 @@
                                                        WHERE gi.event_id = ?            
                                                        ORDER BY gi.`filename` ASC");
             $statement->bind_param('i', $eventId);
-
+    
             if ($statement->execute()) {
                 $statement->bind_result($id, $filename, $path, $createdAt);
     
@@ -88,11 +88,28 @@
                     $files[] = $file;
                 }
             }
-       
+    
             return $files;
         }
+
+        function AddFile($eventId, $name, $path) {
+            global $databaseConnection;
+
+            $statement = $databaseConnection->prepare("INSERT INTO eventfiles(event_id, filename, path) VALUES (?, ?, ?);");
+
+            $statement->bind_param('iss', $eventId, $name, $path);
+            $statement->execute();
+        }
+
+        function UpdateEvent($id, $title, $date, $summary, $content) {
+            
+        }
+
+        function CreateEvent($title, $type, $date, $summary, $content) {
+            
+        }
     }
-        
+    
     class Event {
         public $id = null;
         public $type = NULL;
@@ -102,15 +119,19 @@
         public $content = NULL;
         public $files = NULL;
     
-        public function formattedDate() {
-            if (((string)date("H:i:s", strtotime($this->date))) == "00:00:00") {
-                return date("dS M Y", strtotime($this->date));
+        public function formattedDate($format = null) {
+            if ($format == null) {
+                if (((string)date("H:i:s", strtotime($this->date))) == "00:00:00") {
+                    return date("dS M Y", strtotime($this->date));
+                } else {
+                    return date("dS M Y, H:i", strtotime($this->date));
+                }
             } else {
-                return date("dS M Y, H:i", strtotime($this->date));
+                return date($format, strtotime($this->date));
             }
         }
     }
-
+    
     class EventFile {
         public $id = NULL;
         public $name = NULL;

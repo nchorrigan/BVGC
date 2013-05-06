@@ -9,10 +9,6 @@
         <meta http-equiv="content-type" content="text/html;charset=utf-8" />
         <title>Burghill Valley Golf Club</title>
         <link rel="stylesheet" type="text/css" href="/css/site.css" />
-        <?php if(is_admin()) { ?>
-        <link rel="stylesheet" type="text/css" href="/css/admin.css" />
-        <script type="text/javascript" src="/js/ckeditor/ckeditor.js"></script>
-        <?php } ?>
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
         <script type="text/javascript" src="/js/date-en-GB.js"></script>
@@ -20,6 +16,10 @@
         <script type="text/javascript" src="/js/jquery.simplemodal.js"></script>
         <script type="text/javascript" src="/js/jquery.galleriffic.js"></script>
         <script type="text/javascript" src="/js/main.js"></script>
+        <?php if(is_admin()) { ?>
+        <link rel="stylesheet" type="text/css" href="/css/admin.css" />
+        <script type="text/javascript" src="/js/ckeditor/ckeditor.js"></script>
+        <?php } ?>
     </head>
     <body>
         <div id="header">
