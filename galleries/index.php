@@ -27,7 +27,7 @@
     <?php echo $page->content; ?>
 
     <?php foreach($galleryHelper->getAll() as $gallery) { ?>
-    <div class="gallery" data-id="<?php echo $gallery->id; ?>" data-imgs="<?php echo $gallery->JSON(); ?>">
+    <div id="gallery_<?php echo $gallery->id; ?>" class="gallery" data-id="<?php echo $gallery->id; ?>" data-imgs="<?php echo $gallery->JSON(); ?>">
         <div class="gallery-image">
             <img src="<?php echo $gallery->images[0]->imagePath; ?>" alt="<?php echo $gallery->images[0]->imageDesc; ?>" />
         </div>
@@ -75,6 +75,12 @@
     
             OpenGallery($(this));
         });
+
+        if (location.hash) {
+            if ($(location.hash)) {
+                $(location.hash).click();
+            }
+        }
     
         function OpenGallery(gallery) {
             var images = eval(gallery.data('imgs'));

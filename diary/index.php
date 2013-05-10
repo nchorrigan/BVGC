@@ -27,12 +27,12 @@
     <?php echo $page->content; ?>
 
     <div class="event_section">
-        <?php $news = $eventHelper->GetEvents("News", 99); ?>
+        <?php $news = $eventHelper->GetEvents("News", 99, "ASC"); ?>
         <h3>Latest news <?php if (is_admin()) { ?><a href="/diary/info.php?type=News" target="_blank" class="popup">[+]</a><?php } ?></h3>
         <ul>
             <?php foreach ($news as $item) { ?>
             <li>
-                <a class="<?php echo (is_admin() ? "popup" : "modal")?>" href="/diary/info.php?id=<?php echo $item->id; ?>"><?php echo $item->title; ?></a>
+                <a id="event_<?php echo $item->id; ?>" class="<?php echo (is_admin() ? "popup" : "modal")?>" href="/diary/info.php?id=<?php echo $item->id; ?>"><?php echo $item->title; ?></a>
                 <br />
                 <span><?php echo $item->summary; ?></span>
             </li>
@@ -41,26 +41,12 @@
     </div>
 
     <div class="event_section">
-        <h3>Club Events <?php if (is_admin()) { ?><a href="/diary/info.php?type=Events" target="_blank" class="popup">[+]</a><?php } ?></h3>
-        <?php $news = $eventHelper->GetEvents("Events", 999); ?>
+        <h3>Open Competitions and events <?php if (is_admin()) { ?><a href="/diary/info.php?type=Competitions" target="_blank" class="popup">[+]</a><?php } ?></h3>
+        <?php $news = $eventHelper->GetEvents("Competitions", 999, "ASC"); ?>
         <ul>
             <?php foreach ($news as $item) { ?>
             <li>
-                <a class="<?php echo (is_admin() ? "popup" : "modal")?>" href="/diary/info.php?id=<?php echo $item->id; ?>" class="event_title"><?php echo $item->title; ?></a> <span class="event_date"><?php echo $item->formattedDate(); ?></span>
-                <br />
-                <div class="event_desc"><?php echo $item->summary; ?></div>
-            </li>
-            <?php } ?>
-        </ul>
-    </div>
-
-    <div class="event_section">
-        <h3>Open Competitions <?php if (is_admin()) { ?><a href="/diary/info.php?type=Competitions" target="_blank" class="popup">[+]</a><?php } ?></h3>
-        <?php $news = $eventHelper->GetEvents("Competitions", 999); ?>
-        <ul>
-            <?php foreach ($news as $item) { ?>
-            <li>
-                <a class="<?php echo (is_admin() ? "popup" : "modal")?>" href="/diary/info.php?id=<?php echo $item->id; ?>" class="event_title"><?php echo $item->title; ?></a> <span class="event_date"><?php echo $item->formattedDate(); ?></span>
+                <a id="event_<?php echo $item->id; ?>" class="<?php echo (is_admin() ? "popup" : "modal")?>" href="/diary/info.php?id=<?php echo $item->id; ?>" class="event_title"><?php echo $item->title; ?></a> <span class="event_date"><?php echo $item->formattedDate(); ?></span>
                 <br />
                 <div class="event_desc"><?php echo $item->summary; ?></div>
             </li>
@@ -73,14 +59,23 @@
     $(function () {
         $('.event_section').on('click', 'A', function (e) {
             e.preventDefault();
-    
+
             if ($(this).hasClass('modal')) {
-                $('<DIV />').load($(this).attr('href')).modal({ minHeight: 300 });    
+                $('<DIV />')
+                    .load($(this).attr('href'))
+                    .modal({
+                        minHeight: 300
+                    });
             } else if ($(this).hasClass('popup')) {
                 window.open($(this).attr('href'), "", "width=780,height=650,location=no,menubar=no,toolbar=no")
-            }  
+            }
         });
-    
+
+        if (location.hash) {
+            if ($(location.hash)) {
+                $(location.hash).click();
+            }
+        }
     });
 </script>
 

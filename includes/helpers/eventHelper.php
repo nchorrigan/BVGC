@@ -30,7 +30,7 @@
     
             $statement = $databaseConnection->prepare("SELECT e.id, et.name, e.title, e.summary, e.date 
                                                        FROM `events` e JOIN `eventtypes` et ON e.eventTypeId = et.id 
-                                                       WHERE et.name LIKE ? 
+                                                       WHERE et.name LIKE ? AND e.date >= NOW()
                                                        ORDER BY e.`date` LIMIT ?;");
             $statement->bind_param('si', $filter, $limit);
     
@@ -102,11 +102,36 @@
         }
 
         function UpdateEvent($id, $title, $date, $summary, $content) {
-            
+            global $databaseConnection;
+
+            $statement = $databaseConnection->prepare("UPDATE `events` SET `title` = ?, `date` = ?, `summary` = ?, `content` = ? WHERE `id` = ?;");
+
+            $statement->bind_param('ssssi', $title, date("Y-m-d H:i", $date), $summary, $content, $id);
+            $statement->execute();
+
+            return $this->GetEvent($id);
         }
 
         function CreateEvent($title, $type, $date, $summary, $content) {
-            
+            global $databaseConnection;
+
+            $statement = $databaseConnection->prepare("INSERT INTO `events` (`title`, `eventTypeId`, `date`, `summary`, `content`) VALUES (?, ?, ?, ?, ?);");
+            $statement->bind_param('sisss', $title, $type, date("Y-m-d H:i", $date), $summary, $content);
+            $statement->execute();
+
+            return $this->GetEvent($databaseConnection->insert_id);
+        }
+
+        function DeleteEvent($id) {
+            global $databaseConnection;
+
+            $statement = $databaseConnection->prepare("DELETE FROM `eventfiles` WHERE `event_id` = ?;");
+            $statement->bind_param('i', $id);
+            $statement->execute();
+
+            $statement = $databaseConnection->prepare("DELETE FROM `events` WHERE `id` = ?;");
+            $statement->bind_param('i', $id);
+            $statement->execute();
         }
     }
     
@@ -122,9 +147,9 @@
         public function formattedDate($format = null) {
             if ($format == null) {
                 if (((string)date("H:i:s", strtotime($this->date))) == "00:00:00") {
-                    return date("dS M Y", strtotime($this->date));
+                    return date("jS M Y", strtotime($this->date));
                 } else {
-                    return date("dS M Y, H:i", strtotime($this->date));
+                    return date("jS M Y, H:i", strtotime($this->date));
                 }
             } else {
                 return date($format, strtotime($this->date));

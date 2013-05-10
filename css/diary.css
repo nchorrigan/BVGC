@@ -1,3 +1,7 @@
+.event_section LI {
+    margin-bottom: .6em
+}
+
 .event_title {
     font-weight: bold;
     font-size: 1.1em;

@@ -1,6 +1,7 @@
 @import url(./simplemodal.css);
 @import url(./typography.css);
 @import url(./navigation.css);
+@import url(./diary.css);
 
 BODY {
     background: #111 url('../imgs/bg.gif') repeat-x;

@@ -97,7 +97,7 @@
             }
     
             for($i = 0; $i < count($pages); $i++) {
-                echo "<li><a href=\"". $pages[$i]->path ."\">". $pages[$i]->label ."</a>";
+                echo "<li><a href=\"". ($pages[$i]->path ? $pages[$i]->path : "/") ."\">". $pages[$i]->label ."</a>";
     
                 if ($i + 1 < count($pages) && $pages[$i+1]->rightPos < $pages[$i]->rightPos) {
                     $children = $pages[$i]->rightPos - $pages[$i+1]->rightPos;

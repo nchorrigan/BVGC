@@ -6,17 +6,43 @@
     $event->date = date("Y-m-d");
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (isset($_POST["id"])) {
+        if (isset($_POST["id"]) && strlen($_POST["id"]) > 0) {
             //Update the existing event;
-            $eventHelper->UpdateEvent($_POST["id"], $_POST["title"], strtotime($_POST["date"] ." ". $_POST["time"]), $_POST["summary"], $_POST["content"]);
+            switch($_POST["action"]) {
+                case "delete": {
+                    $eventHelper->DeleteEvent($_POST["id"]);
+                    ?>
+                    <script type="text/javascript">
+                        opener.focus();
+                        opener.location.reload(true);
+                        window.close();
+                    </script>
+                    <?php
+                    exit(0);
+                } break;
+                default: {
+                    $event = $eventHelper->UpdateEvent($_POST["id"], $_POST["title"], strtotime($_POST["date"] ." ". $_POST["time"]), $_POST["summary"], $_POST["content"]);
+                } break;    
+            }
         } else {
+            //Determine the event type.
+            $eventTypeId = 1;
+
+            switch($_POST["type"]){
+                case "News": { $eventTypeId = 1; } break;
+                case "Competitions": { $eventTypeId = 2; } break;
+                case "Events": { $eventTypeId = 3; } break;
+            }
+
             //Create a new event;
-            $eventHelper->CreateEvent($_POST["title"], strtotime($_POST["date"] ." ". $_POST["time"]), $_POST["summary"], $_POST["content"]);
+            $event = $eventHelper->CreateEvent($_POST["title"], $eventTypeId, strtotime($_POST["date"] ." ". $_POST["time"]), $_POST["summary"], $_POST["content"]);
         }
     } else {
         if (isset($_GET["id"])) {
             $event = $eventHelper->GetEvent($_GET["id"]);    
-        } 
+        } elseif (isset($_GET["type"])) {
+            $event->type = $_GET["type"];
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -156,11 +182,12 @@
             <?php } else { ?>
             <form action="./info.php" method="post" style="padding: 1em">
                 <input type="hidden" name="id" value="<?php echo $event->id; ?>" />
+                <input type="hidden" name="type" value="<?php echo $event-> type; ?>" />
 
                 <div style="float: right">
-                    <button type="submit">Save</button>
-                    <button type="submit" name="delete">Delete</button>
-                    <button type="button" onclick="window.close();">Cancel</button>
+                    <button type="submit" name="action" value="save">Save</button>
+                    <button type="submit" name="action" value="delete" onclick="if(!confirm('Are you sure you want to delete this event?')) { return false; }">Delete</button>
+                    <button type="button" name="action" value="close" onclick="opener.focus(); opener.location.reload(true); window.close();">Close</button>
                 </div>
 
                 <div class="formsection">

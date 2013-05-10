@@ -82,7 +82,8 @@
 </div>
 <?php if(!$pageHelper->IsEditable()) { ?>
 <div id="rightcol">
-    <?php $news = $eventHelper->GetEvents("News", 4); ?>
+    <?php $news = $eventHelper->GetEvents("News", 4, "ASC"); ?>
+    <?php if (count($news) > 0) { ?>
     <h3>Latest news</h3>
     <ul class="homepage_events">
         <?php foreach ($news as $item) { ?>
@@ -93,20 +94,22 @@
         </li>
         <?php } ?>
     </ul>
+    <?php } ?>
 
-
-    <?php $news = $eventHelper->GetEvents("Competitions", 4); ?>
+    <?php $news = $eventHelper->GetEvents("Competitions", 5, "ASC"); ?>
+    <?php if (count($news) > 0) { ?>
     <h3>Competitions and events</h3>
     <ul class="homepage_events">
         <?php foreach ($news as $item) { ?>
         <li>
-            <a href="/diary?view=<?php echo $item->id; ?>"><?php echo $item->title; ?></a>
+            <a href="/diary/#event_<?php echo $item->id; ?>"><?php echo $item->title; ?></a>
             <span class="event_date"><?php echo $item->formattedDate(); ?></span>
             <br />
             <span><?php echo $item->summary; ?></span>
         </li>
         <?php } ?>
     </ul>
+    <?php } ?>
 </div>
 <?php } ?>
 

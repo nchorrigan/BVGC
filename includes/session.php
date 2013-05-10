@@ -1,5 +1,6 @@
 <?php
     session_start();
+
     require_once  (dirname(__FILE__) . "/connectDB.php");
 
     function logged_on()
