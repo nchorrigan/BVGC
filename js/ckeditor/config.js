@@ -1,26 +1,48 @@
-CKEDITOR.editorConfig = function (config) {
-    config.autoGrow_onStartup = true;
+/**
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.html or http://ckeditor.com/license
+ */
+
+CKEDITOR.editorConfig = function( config ) {
+	config.autoGrow_onStartup = true;
+    config.disableAutoInline = true;
     config.extraPlugins = 'autogrow';
     config.autoGrow_minHeight = '500';
     config.removePlugins = 'resize';
     config.forcePasteAsPlainText = true;
 
+    config.fillEmptyBlocks = false;
+    config.ignoreEmptyParagraph = true;
+
     config.contentsCss = '/css/wysiwyg.editor.css';
 
-    config.toolbarGroups = [
-		{ name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
-		{ name: 'simpleStyles', items: ['Format', 'Font', 'FontSize'] },
-        { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align'] },
-        '/',
+	// The toolbar groups arrangement, optimized for two toolbar rows.
+	config.toolbarGroups = [
+		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
+		{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
 		{ name: 'links' },
-		{ name: 'simpleinsert', items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar'] },
+		{ name: 'insert' },
+		{ name: 'forms' },
+		{ name: 'tools' },
+		{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
+		{ name: 'others' },
+		'/',
+		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
+		{ name: 'styles' },
 		{ name: 'colors' },
-        { name: 'editing', groups: ['find', 'selection'] },
-        { name: 'clipboard', groups: ['clipboard', 'undo'] }
-    ];
+		{ name: 'about' }
+	];
 
-    config.removeButtons = 'Underline,Subscript,Superscript';
+	// Remove some buttons, provided by the standard plugins, which we don't
+	// need to have in the Standard(s) toolbar.
+	config.removeButtons = 'Underline,Subscript,Superscript';
 
+	// Se the most common block elements.
+	config.format_tags = 'p;h1;h2;h3;pre';
+
+	// Make dialogs simpler.
+	config.removeDialogTabs = 'image:advanced;link:advanced';
     config.filebrowserBrowseUrl = '/kcfinder/browse.php?type=files';
     config.filebrowserImageBrowseUrl = '/kcfinder/browse.php?type=images';
     config.filebrowserFlashBrowseUrl = '/kcfinder/browse.php?type=flash';

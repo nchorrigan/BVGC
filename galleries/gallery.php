@@ -25,9 +25,11 @@
             </div>
             <div id="gallery_canvas">
                 <img src="<?php echo $gallery->images[0]->imagePath; ?>" alt="<?php echo $gallery->images[0]->imageDesc; ?>" />
+                <?php if (strlen($gallery->images[0]->imageDesc) > 0) { ?>
                 <div id="gallery_description">
                     <span><?php echo $gallery->images[0]->imageDesc; ?></span>
                 </div>
+                <?php } ?>
             </div>
         </div>
 
@@ -89,11 +91,14 @@
 
             var img = $(this).find('IMG');
 
-            $('#gallery_canvas')
-                .html(img.clone())
-                .append($('<div />')
+            var canvas = $('#gallery_canvas').html(img.clone());
+
+            if (img.attr('alt') && img.attr('alt').length) {
+                canvas
+                    .append($('<div />')
                     .attr({ id: 'gallery_description' })
                     .html($('<span />').append(img.attr('alt'))));
+            }
         });
     });
 </script>

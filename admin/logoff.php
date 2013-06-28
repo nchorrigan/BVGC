@@ -5,5 +5,5 @@
 			setcookie(session_name(), '', time()-300, '/');
 		}
 		session_destroy();
-	    header ("Location: logon.php");
+	    header ("Location: /");
 ?>

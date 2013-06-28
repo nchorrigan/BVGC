@@ -1,8 +1,8 @@
 .wysiwyg_heading {
-    padding:1px 10px;
-    font-size:1em;
-    font-weight:bold;
-    width:15em;
+    padding: 1px 10px;
+    font-size: 1em;
+    font-weight: bold;
+    width: 15em;
 }
 
 #edit-page {
@@ -18,18 +18,65 @@ BUTTON {
     margin-left: 5px;
 }
 
-    BUTTON[name=edit] {
-        background-image: url(../imgs/buttons/page_edit.png);
-    }
+BUTTON[name=edit] {
+    background-image: url(../imgs/buttons/page_edit.png);
+}
 
-    BUTTON[name=save] {
-        background-image: url(../imgs/buttons/page_save.png);
-    }
+BUTTON[name=save] {
+    background-image: url(../imgs/buttons/page_save.png);
+}
 
-    BUTTON[name=delete] {
-        background-image: url(../imgs/buttons/page_delete.png);
-    }
+BUTTON[name=delete] {
+    background-image: url(../imgs/buttons/page_delete.png);
+}
 
-    BUTTON[name=add] {
-        background-image: url(../imgs/buttons/page_add.png);
-    }
+BUTTON[name=add] {
+    background-image: url(../imgs/buttons/page_add.png);
+}
+
+#banner_admin TABLE {
+    width: 95%;
+}
+
+#banner_admin TR {
+    border-bottom: 1px solid #999;
+    margin-bottom: .7em;
+}
+
+#banner_admin TR TD {
+}
+
+#banner_admin TR TD.image, #banner_admin TR TD.desc, #banner_admin TR TD.desc DIV {
+    height: 100px;
+}
+
+#banner_admin TR TD.image {
+    width: 25%;
+}
+
+#banner_admin TR TD.image IMG {
+    height: 90px;
+}
+
+#banner_admin TR TD.desc {
+    width: 55%;
+    overflow: scroll;
+    vertical-align: top;
+}
+
+#banner_admin TR TD.options {
+    width: 13%;
+}
+
+.banner-admin {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: rgba(255, 255, 255, .8);
+    padding: .3em 1em;
+    border: 1px solid #999;
+}
+
+.banner-desc {
+    -webkit-user-modify: read-write;
+}

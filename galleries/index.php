@@ -1,5 +1,4 @@
 <?php
-    
     include("../includes/header.php"); 
 
     $galleryHelper = new GalleryHelper();
@@ -86,7 +85,7 @@
             var images = eval(gallery.data('imgs'));
     
             if (images != undefined && images.length > 0) {
-                $('<div />').load('gallery.php?id='+ gallery.data('id')).modal({ minWidth: 800, minHeight: 650 });
+                $('<div />').load('gallery.php?id='+ gallery.data('id')).modal({ minWidth: 800, minHeight: 550 });
             } else {
                 alert('Work in progress - an update coming soon!');
             }

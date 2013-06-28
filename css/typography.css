@@ -1,13 +1,16 @@
-body {
+body, SELECT, INPUT, TD, TH {
     font-family: Arial;
     font-size: 10pt;
     line-height: 1.7em;
-    color: #302c18;
-    margin: 0;
+    color: #302c18;  
+}
+
+BODY {
+     margin: 0;
 }
 
 H1, H2, H3, H4 {
-    color: #878080;
+    color: #800;
 }
 
 A {
@@ -20,7 +23,30 @@ A:HOVER {
 }
 
 .cms_content IMG {
-    border: 1px solid #111;
+    border: none;
     padding: 3px;
     margin: .8em;
+}
+
+TABLE {
+    margin-left: 2em;
+    border-collapse: collapse;
+}
+
+TABLE, TABLE TD, TABLE TH {
+    border: none;
+    padding: 3px 5px;
+}
+
+TABLE THEAD TR {
+    background: #6d6b87;
+    color: #fff;
+}
+
+TABLE TBODY TR:nth-child(even) {
+    background: #CCC;
+}
+
+TABLE TBODY TR:nth-child(odd) {
+    background: #FFF;
 }

@@ -10,7 +10,7 @@
                 $path = substr($path, 0, strlen($path) - 1);
             }
     
-            $query = 'SELECT id, path, menulabel, pageTitle, content, left_pos, right_pos, showOnMenu FROM pages WHERE path = ? LIMIT 1';
+            $query = 'SELECT id, parentPageId, sortOrder, showOnMenu, path, menulabel, pageTitle, content FROM pages WHERE path = ? LIMIT 1';
             $statement = $databaseConnection->prepare($query);
             $statement->bind_param('s', $path);
             $statement->execute();
@@ -19,20 +19,19 @@
             $page = new Page();
     
             if (!$statement->error && !$statement->num_rows != 1) {
-                $statement->bind_result($page->id, $page->path, $page->label, $page->title, $page->content, $page->leftPos, $page->rightPos, $page->showInMenu);
+                $statement->bind_result($page->id, $page->parentPageId, $page->sortOrder, $page->showInMenu, $page->path, $page->label, $page->title, $page->content);
                 $statement->fetch();
     
-                $statement = $databaseConnection->prepare("select c.id, c.path, c.menulabel, c.pageTitle, '', c.left_pos, c.right_pos, c.showOnMenu
+                $statement = $databaseConnection->prepare("select p.id, p.path, p.menulabel, p.pageTitle, '', p.showOnMenu
                                                             from 
                                                                 pages p
-                                                                join pages c on p.left_pos < c.left_pos and p.right_pos > c.right_pos
-                                                            where p.id = ?
-                                                            order by p.left_pos, c.left_pos");
+                                                            where p.parentPageId = ?
+                                                            order by p.sortOrder");
                 $statement->bind_param('i', $page->id);
     
                 if ($statement->execute()) {
                     $subPage = new Page();
-                    $statement->bind_result($subPage->id, $subPage->path, $subPage->label, $subPage->title, $subPage->content, $subPage->leftPos, $subPage->rightPos, $subPage->showInMenu);
+                    $statement->bind_result($subPage->id, $subPage->path, $subPage->label, $subPage->title, $subPage->content, $subPage->showInMenu);
     
                     while($row = $statement->fetch()) {
                         $thisPage = new Page();
@@ -69,19 +68,18 @@
             return $page;
         }
     
-    
-        function BuildMenu() {
+        function GetParentPages(){
             global $databaseConnection;
     
             //Get an array of all of the pages.
             $pages = array();
     
-            $query = 'SELECT id, path, menulabel, pageTitle, left_pos, right_pos FROM pages WHERE showOnMenu = 1 ORDER BY left_pos ASC;';
+            $query = 'SELECT id, path, menulabel, pageTitle FROM pages WHERE parentPageId IS NULL AND showOnMenu = 1 ORDER BY sortOrder ASC;';
             $statement = $databaseConnection->prepare($query);
     
             if ($statement->execute()) {
-                $statement->bind_result($id, $path, $label, $title, $leftPos, $rightPos);
-    
+                $statement->bind_result($id, $path, $label, $title);
+   
                 while($row = $statement->fetch()) {
                     $page = new Page();
     
@@ -89,38 +87,133 @@
                     $page->path = $path;
                     $page->label = $label;
                     $page->title = $title;
-                    $page->leftPos = $leftPos;
-                    $page->rightPos = $rightPos;
     
                     $pages[] = $page;
                 }
             }
+
+            return $pages;
+        }
+
+        function BuildMenu($hideAdmin = false) {
+            global $databaseConnection;
+    
+            //Get an array of all of the pages.
+            $pages = $this->GetParentPages();
     
             for($i = 0; $i < count($pages); $i++) {
                 echo "<li><a href=\"". ($pages[$i]->path ? $pages[$i]->path : "/") ."\">". $pages[$i]->label ."</a>";
     
-                if ($i + 1 < count($pages) && $pages[$i+1]->rightPos < $pages[$i]->rightPos) {
-                    $children = $pages[$i]->rightPos - $pages[$i+1]->rightPos;
-    
+                $query = 'SELECT id, path, menulabel, pageTitle FROM pages WHERE parentPageId = ? AND showOnMenu = 1 ORDER BY sortOrder ASC;';
+                $statement = $databaseConnection->prepare($query);
+                $statement->bind_param('i', $pages[$i]->id);
+                $statement->execute();
+                $statement->store_result();
+
+                if (!$statement->error && !$statement->num_rows != 1) {
+                    $statement->bind_result($id, $path, $label, $title);
+                   
                     echo "<ul>";
-                    for($x = 0; $x < $children; $x++) {
-                        echo "<li><a href=\"". $pages[$i]->path ."\">". $pages[$i]->label ."</a>";
-                        $i++;
+                    echo "<li><a href=\"". ($pages[$i]->path ? $pages[$i]->path : "/") ."\">". $pages[$i]->label ."</a>";
+                    while($row = $statement->fetch()) {    
+                        echo "<li><a href=\"". $path ."\">". $label ."</a>";
                     }
+
                     echo "</ul>";
-                    $i--;
                 }
     
                 echo "</li>";
             }
+    
+            if (!$hideAdmin && is_admin()) {
+                echo "<li><a href=\"/admin/\" style=\"font-weight: bold\">ADMIN</a>";
+                echo "<ul>";
+                echo    "<li><a class=\"admin\" data-action=\"add_page\" href=\"/admin/addpage.php\">Add a new page</a></li>";
+                echo    "<li><a href=\"/admin/logoff.php\">LOGOUT</a></li>";
+                echo "</ul>";
+                echo "</li>";
+            }
         }
     
+        function CreatePage($parentPageId, $label, $title) {
+            global $databaseConnection;
+    
+            if ($parentPageId > 0) {
+                $path = "";
+            } else {
+                $path = "/". ;
+            }
+
+            $query = "INSERT INTO pages (parentPageId, label, title) values(?, ?, ?)";
+            $statement = $databaseConnection->prepare($query);
+            $statement->bind_param('iss', $parentPageId, $label, $title);
+            $statement->execute();
+    
+            $statement->store_result();
+            return (!$statement->error && $statement->affected_rows == 1);
+        }
+
         function UpdatePage($pageId, $pageTitle, $content) {
             global $databaseConnection;
     
             $query = "UPDATE pages SET pageTitle = ?, content = ? WHERE Id = ?";
             $statement = $databaseConnection->prepare($query);
             $statement->bind_param('ssi', $pageTitle, $content, $pageId);
+            $statement->execute();
+    
+            $statement->store_result();
+            return (!$statement->error && $statement->affected_rows == 1);
+        }
+    
+        function GetBanner($bannerId) {
+            global $databaseConnection;
+    
+            $query = "SELECT id, imagePath, imageDesc, content, sortOrder FROM pagebanners WHERE id = ?;";
+            $statement = $databaseConnection->prepare($query);
+            $statement->bind_param('i', $bannerId);
+            $statement->execute();    
+            $statement->store_result();
+    
+            $banner = new PageBanner();
+    
+            if (!$statement->error && !$statement->num_rows != 1) {
+                $statement->bind_result($banner->id, $banner->imagePath, $banner->imageDesc, $banner->content, $page->sortOrder);
+                $statement->fetch();
+            }
+    
+            return $banner;
+        }
+    
+        function AddBanner($pageId, $path) {
+            global $databaseConnection;
+    
+            $query = "INSERT INTO pagebanners (pageId, imagePath, sortOrder) SELECT ?, ?, (MAX(sortOrder) + 1) FROM pageBanners WHERE pageId = ?;";
+            $statement = $databaseConnection->prepare($query);
+            $statement->bind_param('isi', $pageId, $path, $pageId);
+            $statement->execute();
+    
+            $statement->store_result();
+            return (!$statement->error && $statement->affected_rows == 1);
+        }
+    
+        function UpdateBanner($bannerId, $content, $imagePath, $sortOrder) {
+            global $databaseConnection;
+    
+            $query = "UPDATE pagebanners SET `content` = ?, imagePath = ?, sortOrder = ? WHERE id = ?;";
+            $statement = $databaseConnection->prepare($query);
+            $statement->bind_param('ssii', $content, $imagePath, $sortOrder, $bannerId);
+            $statement->execute();
+    
+            $statement->store_result();
+            return (!$statement->error && $statement->affected_rows == 1);
+        }
+    
+        function RemoveBanner($bannerId) {
+            global $databaseConnection;
+    
+            $query = "DELETE FROM pagebanners WHERE id = ?;";
+            $statement = $databaseConnection->prepare($query);
+            $statement->bind_param('i', $bannerId);
             $statement->execute();
     
             $statement->store_result();
@@ -142,7 +235,7 @@
         function EditPageButton() {
             if (is_admin()) { 
                 if ($this->isEditable()) {
-                    echo "<div id=\"edit-page\"><button type=\"submit\" name=\"save\" title=\"Save your changes\" /><button type=\"submit\" name=\"add\" title=\"add a sub-page\" /><button type=\"submit\" name=\"delete\" onclick=\"if (!confirm('Are you sure you want to delete this page?')) return false;\" title=\"delete this page\" /></div>"; 
+                    echo "<div id=\"edit-page\"><button type=\"submit\" name=\"save\" title=\"Save your changes\">Save</button></div>";//<button type=\"submit\" name=\"add\" title=\"add a sub-page\" /><button type=\"submit\" name=\"delete\" onclick=\"if (!confirm('Are you sure you want to delete this page?')) return false;\" title=\"delete this page\" /></div>"; 
                 } else {
                     echo "<div id=\"edit-page\"><button type=\"submit\" name=\"edit\" /><button type=\"submit\" name=\"add\" title=\"add a new page\" /></div>"; 
                 }

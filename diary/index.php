@@ -26,8 +26,9 @@
 
     <?php echo $page->content; ?>
 
-    <div class="event_section">
-        <?php $news = $eventHelper->GetEvents("News", 99, "ASC"); ?>
+    <?php $news = $eventHelper->GetEvents("News", 99, "ASC"); ?>
+    <?php if (count($news) > 0 || is_admin()) { ?>
+    <div class="event_section" id="news">       
         <h3>Latest news <?php if (is_admin()) { ?><a href="/diary/info.php?type=News" target="_blank" class="popup">[+]</a><?php } ?></h3>
         <ul>
             <?php foreach ($news as $item) { ?>
@@ -39,10 +40,12 @@
             <?php } ?>
         </ul>
     </div>
+    <?php } ?>
 
-    <div class="event_section">
+    <?php $news = $eventHelper->GetEvents("Competitions", 999, "ASC"); ?>
+    <?php if (count($news) > 0 || is_admin()) { ?>
+    <div class="event_section" id="open">
         <h3>Open Competitions and events <?php if (is_admin()) { ?><a href="/diary/info.php?type=Competitions" target="_blank" class="popup">[+]</a><?php } ?></h3>
-        <?php $news = $eventHelper->GetEvents("Competitions", 999, "ASC"); ?>
         <ul>
             <?php foreach ($news as $item) { ?>
             <li>
@@ -53,6 +56,7 @@
             <?php } ?>
         </ul>
     </div>
+    <?php } ?>
 </div>
 
 <script type="text/javascript">

@@ -98,6 +98,10 @@ A#book-a-tee IMG {
     margin-bottom: 1em;
 }
 
+#footer #address {
+    float: right;
+}
+
 #mainbody {
     min-height: 500px;
     border-left: 1px solid #000;
@@ -109,14 +113,14 @@ A#book-a-tee IMG {
 
 #banners {
     position: relative;
-    height: 300px;
+    height: 320px;
     overflow: hidden;
 }
 
 #banners .banner-dark {
     position: absolute;
     width: 31%;
-    height: 308px;
+    height: 338px;
     background-color: #000;
     opacity: 0.7;
     left: 17px;
@@ -157,7 +161,7 @@ A#book-a-tee IMG {
 }
 
 #leftcol {
-    width: 58%;
+    width: 52%;
     float: left;
     margin: 0 .3em 1em 1em;
 }
@@ -165,10 +169,11 @@ A#book-a-tee IMG {
 #rightcol {
     position: relative;
     float: right;
-    width: 37%;
-    right: 0;
-    margin-top: .3em;
+    width: 39%;
+    right: 10px;
     margin-left: 1em;
+    margin-top: 1.2em;
+    padding-bottom: 1.2em;
 }
 
 #fullcol {
@@ -177,6 +182,7 @@ A#book-a-tee IMG {
 
 #leftcol, #fullcol {
     position: relative;
+    min-height: 300px;
 }
 
 #leftcol P, #fullcol P {
@@ -192,6 +198,9 @@ A#book-a-tee IMG {
     margin: 1em 0 .4em 0;
 }
 
+#rightcol H3 {
+    margin: .4em 0 1em 0;
+}
 
 .homepage_events {
     list-style: none;
@@ -201,11 +210,62 @@ A#book-a-tee IMG {
 
 .homepage_events LI {
     margin-bottom: .4em;
+    padding-bottom: .5em;
+    border-bottom: 1px dotted #ccc;
+    margin-right: 2em;
+    font-size: .9em;
+    min-height: 3em;
 }
 
 .event_date {
     font-style: italic;
-    font-size: .9em;
-    
-    margin-left: 1.2em;    
+    float: right;
+    margin-left: 1.2em;
+    margin-right: 1em;
+}
+
+.ui-front {
+    z-index: 100;
+}
+
+.shadow-content {
+    background: url(../imgs/bg_panel-boxed.jpg) repeat-x 0 100% #f7f9f9;
+    padding: 15px 20px 10px 20px;
+    margin: 0;
+    min-height: 330px;
+    position: relative;
+}
+
+.shadow-box {
+    background: url(../imgs/bg_panel-shadow-mid.jpg) repeat-x 0 100%;
+    position: absolute;
+    padding-top: 20px;
+    overflow: hidden;
+    margin: 0 auto;
+    display: block;
+    margin-top: 0;
+    height: 20px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.shadow-box .shadow-left, .shadow-box .shadow-right {
+    position: static;
+    display: block;
+    left: inherit;
+    height: 20px;
+    top: inherit;
+    float: left;
+    width: 170px;
+    margin: 0;
+}
+
+.shadow-box .shadow-left {
+    background: url(../imgs/bg_panel-shadow-bl-sml.jpg) no-repeat 0 100%;
+}
+
+.shadow-box .shadow-right {
+    background: url(../imgs/bg_panel-shadow-br-sml.jpg) no-repeat 100% 0;
+    float: right;
 }

@@ -147,6 +147,7 @@
 
                             window.KCFinder = null;
                         };
+
                         window.open('/kcfinder/browse.php?type=events', 'kcfinder_single', 'width=600,height=500');
                     } else if ($(this).hasClass('removefile')) {
                         alert($(this).data('fileid'));
@@ -162,7 +163,7 @@
             <h4><?php echo $event->formattedDate(); ?></h4>
 
             <?php if (strtolower($event->type) == "events" || strtolower($event->type) == "competitions") { ?>
-            <div class="eventinfo_options"><a href="./reminder.php?start=<?php echo $event->date; ?>&amp;end=<?php echo $event->date; ?>&amp;name=<?php echo $event->title; ?>&amp;desc=<?php echo $event->summary; ?>">add to your calendar</a></div>
+            <div class="eventinfo_options"><a href="./calendar.ics?start=<?php echo $event->date; ?>&amp;end=<?php echo $event->date; ?>&amp;name=<?php echo $event->title; ?>&amp;desc=<?php echo $event->summary; ?>">add to your calendar</a></div>
             <?php } ?>
 
             <span class="cms_content"><?php echo $event->content; ?></span>
